@@ -6,7 +6,7 @@ export default function (){
 return (
     <Box>
         <Header />
-        <Container maxWidth="lg" sx={{flexGrow:1}}>
+        <Container maxWidth="lg" sx={{flexGrow:1, py:4}}>
             <Outlet />
         </Container>
     </Box>

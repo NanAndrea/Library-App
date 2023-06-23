@@ -7,8 +7,12 @@ export function myBooks(){
 
 };
 
-export function allBooks(){
+export function getAllBooks(){
     return fentchAndParse(`${BASE_URL}/book`, {
         headers
     })
+}
+
+export function getBookById(id){
+    return fentchAndParse(`${BASE_URL}/book/${id}`)
 }
