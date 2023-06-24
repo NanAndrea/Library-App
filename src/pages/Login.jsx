@@ -95,18 +95,16 @@ export default function () {
               alignItems: "center",
             }}
           >
-            <Avatar sx={{ m: 1 }}>
+            <Avatar sx={{ m: 1, bgcolor: 'primary.light' }}>
               <LockOutlinedIcon />
             </Avatar>
             <Typography component="h1" variant="h5">
               Sign in
             </Typography>
-            {user
-              ? `Logged in with ${user.firstName} ${user.lastName}`
-              : "Not logged in"}
+           
             <Typography variant="body1">
               or{" "}
-              <Link component={NavLink} to="/">
+              <Link component={NavLink} to="/" color="primary.contrastText">
                 {" explore the app"}
               </Link>
             </Typography>
@@ -145,7 +143,7 @@ export default function () {
               </Button>
               <Grid container justifyContent="center">
                 <Grid item>
-                  <Link component={NavLink} to="/register" variant="body1">
+                  <Link component={NavLink} to="/register" variant="body1" color="primary.contrastText">
                     {"Don't have an account? Sign Up"}
                   </Link>
                 </Grid>

@@ -7,6 +7,7 @@ import {
   IconButton,
   Menu,
   MenuItem,
+  Paper,
   Toolbar,
   Tooltip,
   Typography,
@@ -16,15 +17,26 @@ import BookIcon from "@mui/icons-material/Book";
 import MenuIcon from "@mui/icons-material/Menu";
 import { useState } from "react";
 import { useAuthContext } from "../context/auth/AuthContext";
+import { NavLink, useNavigate } from "react-router-dom";
 
-const pages = ["Home", "My Books"];
-  const settings = ["Logout"];
+const pages = [{
+  name: "Home",
+  path: "/",
+},
+{
+  name: "Manage Books",
+  path: "/manage",
+  auth: true,
+},
+];
+ 
 
 export function Header() {
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
 
-  const { logout } = useAuthContext();
+  const { user, logout } = useAuthContext();
+  const navigate = useNavigate();
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -42,15 +54,16 @@ export function Header() {
   };
 
   return (
-    <AppBar position="static">
-      <Container maxWidth="lg">
+    <AppBar position="static" >
+      <Paper elevation={1} sx={{backgroundColor:"primary.main"}}>
+
+      
+      <Container maxWidth="lg" >
         <Toolbar disableGutters>
           <BookIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
           <Typography
             variant="h6"
             noWrap
-            component="a"
-            href="/"
             sx={{
               mr: 2,
               display: { xs: "none", md: "flex" },
@@ -91,10 +104,26 @@ export function Header() {
                 display: { xs: "block", md: "none" },
               }}
             >
-              {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{page}</Typography>
-                </MenuItem>
+              
+              {pages.filter ((page)=> (page.auth ? Boolean(user) : true))
+              .map((page)=> (
+                <MenuItem
+                    component={NavLink}
+                    to={page.path}
+                    key={page.name}
+                    onClick={handleCloseNavMenu}
+                    sx={{
+                      "&.active": {
+                        "& p": {
+                          color: "primary.contrastText",
+                          fontWeight: "bold",
+                        },
+                        backgroundColor: "action.selected",
+                      },
+                    }}
+                  >
+                    <Typography textAlign="center">{page.name}</Typography>
+                  </MenuItem>
               ))}
             </Menu>
           </Box>
@@ -102,37 +131,57 @@ export function Header() {
           <Typography
             variant="h5"
             noWrap
-            component="a"
-            href=""
+            component={NavLink}
+            to="/"
             sx={{
               mr: 2,
               display: { xs: "flex", md: "none" },
               flexGrow: 1,
               fontFamily: "monospace",
               fontWeight: 700,
-
-              color: "inherit",
+              color: "primary.contrastText",
+              
               textDecoration: "none",
             }}
           >
             goodReads
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-            {pages.map((page) => (
-              <Button
-                key={page}
-                onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: "white", display: "block" }}
-              >
-                {page}
-              </Button>
-            ))}
+          {pages
+              .filter((page) => (page.auth ? Boolean(user) : true))
+              .map((page) => (
+                <Button
+                  key={page.name}
+                  LinkComponent={NavLink}
+                  to={page.path}
+                  onClick={handleCloseNavMenu}
+                  sx={{
+                    my: 2,
+                    color: "primary.contrastText",
+                    display: "block",
+                    "&.active": {
+                      color: "primary.contrastText",
+                      fontWeight: "bold",
+                      backgroundColor: "action.selected",
+                    },
+                  }}
+                >
+                  {page.name}
+                </Button>
+              ))}
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Open settings">
+            <Tooltip title="Account">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" />
+              {user ? (
+                  <Avatar sx={{bgcolor: 'primary.light' }}>
+                    {user.firstName[0]}
+                    {user.lastName[0]}
+                  </Avatar>
+                ) : (
+                  <Avatar sx={{bgcolor:'primary.light' }}/>
+                )}
               </IconButton>
             </Tooltip>
             <Menu
@@ -151,15 +200,26 @@ export function Header() {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={logout}>
-                  <Typography textAlign="center">{setting}</Typography>
+              {user ? (
+                <MenuItem onClick={()=>{
+                  logout();
+                }}>
+                  <Typography textAlign="center">Logout</Typography>
                 </MenuItem>
-              ))}
+              ) : (
+                <MenuItem
+                  onClick={() => {
+                    navigate("/login");
+                  }}
+                >
+                  <Typography textAlign="center">Login</Typography>
+                </MenuItem>
+              )}
             </Menu>
           </Box>
         </Toolbar>
       </Container>
+      </Paper>
     </AppBar>
   );
 }
