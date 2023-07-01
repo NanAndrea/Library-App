@@ -73,7 +73,7 @@ export default function (){
             alignItems: 'center',
           }}
         >
-          <Avatar sx={{ m: 1, bgcolor: 'primary.light' }}>
+          <Avatar sx={{ m: 1, bgcolor: 'primary.dark' }}>
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
@@ -85,13 +85,15 @@ export default function (){
                 <TextField
                 {...register("firstName")}
                 {...displayError("firstName")}
-                  autoComplete="given-name"
-                  name="firstName"
+                 
                   required
                   fullWidth
                   id="firstName"
                   label="First Name"
-                  autoFocus
+                  autoComplete="given-name"
+                  name="firstName"
+                  
+                  
                  
                 />
               </Grid>
@@ -155,13 +157,13 @@ export default function (){
               type="submit"
               fullWidth
               variant="contained"
-              sx={{ mt: 3, mb: 2 }}
+              sx={{ mt: 3, mb: 2, bgcolor: 'primary.dark'}}
             >
               Sign Up
             </Button>
             <Grid container justifyContent="center">
               <Grid item>
-                <Link to="/login" component={NavLink} variant="body2">
+                <Link to="/login" component={NavLink} variant="body2" color="primary.main" paddingY={2}>
                   Already have an account? Sign in
                 </Link>
               </Grid>

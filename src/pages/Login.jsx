@@ -95,7 +95,7 @@ export default function () {
               alignItems: "center",
             }}
           >
-            <Avatar sx={{ m: 1, bgcolor: 'primary.light' }}>
+            <Avatar sx={{ m: 1, bgcolor: 'primary.dark' }}>
               <LockOutlinedIcon />
             </Avatar>
             <Typography component="h1" variant="h5">
@@ -104,12 +104,13 @@ export default function () {
            
             <Typography variant="body1">
               or{" "}
-              <Link component={NavLink} to="/" color="primary.contrastText">
+              <Link component={NavLink} to="/" color="primary.main">
                 {" explore the app"}
               </Link>
             </Typography>
-            <Box component="form" sx={{ mt: 1 }} onSubmit={onSubmit}>
+            <Box component="form" sx={{ mt: 1 }} onSubmit={onSubmit} >
               <TextField
+              
                 {...register("email")}
                 {...displayError("email")}
                 margin="normal"
@@ -118,6 +119,9 @@ export default function () {
                 label="Email Address"
                 name="email"
                 autoFocus
+                style={{color:"brown"}}
+                
+                
               />
               <TextField
                 {...register("password")}
@@ -137,13 +141,13 @@ export default function () {
                 type="submit"
                 fullWidth
                 variant="contained"
-                sx={{ mt: 3, mb: 2 }}
+                sx={{ mt: 3, mb: 2, bgcolor:"primary.dark" }}
               >
                 Sign In
               </Button>
               <Grid container justifyContent="center">
                 <Grid item>
-                  <Link component={NavLink} to="/register" variant="body1" color="primary.contrastText">
+                  <Link component={NavLink} to="/register" variant="body1" color="primary.main">
                     {"Don't have an account? Sign Up"}
                   </Link>
                 </Grid>

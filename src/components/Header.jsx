@@ -13,7 +13,7 @@ import {
   Typography,
 } from "@mui/material";
 
-import BookIcon from "@mui/icons-material/Book";
+
 import MenuIcon from "@mui/icons-material/Menu";
 import { useState } from "react";
 import { useAuthContext } from "../context/auth/AuthContext";
@@ -55,12 +55,14 @@ export function Header() {
 
   return (
     <AppBar position="static" >
-      <Paper elevation={1} sx={{backgroundColor:"primary.main"}}>
+      <Paper elevation={1} sx={{backgroundColor:"primary.light"}}>
 
       
       <Container maxWidth="lg" >
         <Toolbar disableGutters>
-          <BookIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
+          
+          <Box component="img" src="https://s.gr-assets.com/assets/react_components/currently_reading/icn_default_CR_ltrail-16f28d39654104ceb329648a474943eb.svg"
+          sx={{width:"40px",display: { xs: "none", md: "flex" }, mr: 1, color:"primary.main"}}></Box>
           <Typography
             variant="h6"
             noWrap
@@ -115,7 +117,7 @@ export function Header() {
                     sx={{
                       "&.active": {
                         "& p": {
-                          color: "primary.contrastText",
+                          color: "primary.main",
                           fontWeight: "bold",
                         },
                         backgroundColor: "action.selected",
@@ -127,7 +129,9 @@ export function Header() {
               ))}
             </Menu>
           </Box>
-          <BookIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} />
+          
+          <Box component="img" src="https://s.gr-assets.com/assets/react_components/currently_reading/icn_default_CR_ltrail-16f28d39654104ceb329648a474943eb.svg"
+          sx={{width:"40px", display: { xs: "flex", md: "none" }, mr: 1 }}></Box>
           <Typography
             variant="h5"
             noWrap
@@ -139,7 +143,7 @@ export function Header() {
               flexGrow: 1,
               fontFamily: "monospace",
               fontWeight: 700,
-              color: "primary.contrastText",
+              color: "primary.main",
               
               textDecoration: "none",
             }}
@@ -157,10 +161,10 @@ export function Header() {
                   onClick={handleCloseNavMenu}
                   sx={{
                     my: 2,
-                    color: "primary.contrastText",
+                    color: "primary.main",
                     display: "block",
                     "&.active": {
-                      color: "primary.contrastText",
+                      color: "primary.main",
                       fontWeight: "bold",
                       backgroundColor: "action.selected",
                     },
@@ -175,12 +179,12 @@ export function Header() {
             <Tooltip title="Account">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
               {user ? (
-                  <Avatar sx={{bgcolor: 'primary.light' }}>
+                  <Avatar sx={{bgcolor: 'primary.dark' }}>
                     {user.firstName[0]}
                     {user.lastName[0]}
                   </Avatar>
                 ) : (
-                  <Avatar sx={{bgcolor:'primary.light' }}/>
+                  <Avatar sx={{bgcolor:'primary.dark' }}/>
                 )}
               </IconButton>
             </Tooltip>
