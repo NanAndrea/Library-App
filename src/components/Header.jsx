@@ -207,6 +207,7 @@ export function Header() {
               {user ? (
                 <MenuItem onClick={()=>{
                   logout();
+                  navigate("/");
                 }}>
                   <Typography textAlign="center">Logout</Typography>
                 </MenuItem>

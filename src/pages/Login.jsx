@@ -24,6 +24,7 @@ const UserRegisterSchema = z.object({
   email: z.string().min(3, "Email is required").email("Invalid email"),
   password: z.string().min(2, "Password is required"),
 });
+
 export default function () {
   const navigate = useNavigate();
 

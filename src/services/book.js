@@ -16,3 +16,4 @@ export function getAllBooks(){
 export function getBookById(id){
     return fentchAndParse(`${BASE_URL}/book/${id}`)
 }
+

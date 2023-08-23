@@ -18,6 +18,7 @@ import { useFetchData } from "../hooks/useFetchData";
 import { getAllBooks } from "../services/book";
 
 export default function () {
+  const { user } = useAuthContext();
   const {
     data: books,
     loading,
@@ -42,6 +43,7 @@ export default function () {
 
   return (
     <Box paddingY={3}>
+     
       <Grid container spacing={4}>
         {books.map((book) => (
           <Grid item xs={12} sm={6} md={4} lg={3} key={book._id}>

@@ -14,11 +14,12 @@ import { Link } from "react-router-dom";
 export function BookCard({ book }) {
   const [showFullText, setShowFullText] = useState(false);
 
-  function handleShowFullText (){
+  function handleShowFullText (e){
     setShowFullText(!showFullText);
+    e.stopPropagation();
   };
 
-  const text = (
+ {/* const text = (
     <Box>
       <Typography variant="body1" fontWeight="bold">
         {book.title}
@@ -35,20 +36,21 @@ export function BookCard({ book }) {
           height: "30rem",
           lineHeight: "1rem",
           overflow: "hidden",
+         
           
         }}
       >
-        {showFullText ? book.description : `${book.description.slice(0, 300)}...`}
+        {showFullText ? book.description : `${book.description.slice(0, 200)}...`}
         <Typography component="button" variant="text" disableElevation sx={{border:"none", color:"red"}} onClick={handleShowFullText}>{showFullText ? "(less)" : "...more"}</Typography>
       </Typography>
       
     </Box>
-  );
+      );*/}
   return (
-    //<Link to={`book/${book.id}`} style={{ textDecoration: "none" }}>
+    <Link to={`book/${book.id}`} style={{ textDecoration: "none" }}>
       <Tooltip
-        title={text}
-        placement="left"
+        //title={text}
+        placement="bottom"
         arrow
         componentsProps={{
           tooltip: {
@@ -58,8 +60,10 @@ export function BookCard({ book }) {
               border: "2px solid #B9AD99",
               padding: "15px 10px",
 
-             maxWidth: "400px",
+             maxWidth: "300px",
               maxHeight: "200px",
+              '@media(max-width:600px)':{
+               display:"none"}
             },
           },
           arrow: {
@@ -81,17 +85,8 @@ export function BookCard({ book }) {
             max-width="100%"
             image={book.coverImageURL}
           />
-
-          {/*<CardContent>
-          <Typography gutterBottom variant="h5" textAlign="center" >
-            {book.title}
-          </Typography>
-          <Typography variant="body2" textAlign="center" color="text.secondary">
-            {book.author}
-          </Typography>
-      </CardContent> */}
         </Card>
       </Tooltip>
-  //  </Link>
+    </Link>
   );
 }

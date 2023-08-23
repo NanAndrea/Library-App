@@ -26,7 +26,7 @@ export default function ManageBooks() {
   const navigate = useNavigate();
 
   return (
-    <Box>
+    <Box sx={{minHeight:"100vh"}}>
       <Grid container spacing={3} display="flex" alignItems="center">
         <Grid item xs={12} sm={8} md={10}>
           <Typography variant="h3">Manage Books</Typography>
