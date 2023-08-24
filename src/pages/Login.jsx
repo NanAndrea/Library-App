@@ -13,7 +13,7 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { NavLink, useNavigate } from "react-router-dom";
 import Image from "../img/backgroundImage.jpg";
 import { useState } from "react";
-import { myBooks } from "../services/book";
+import {getMyBooks } from "../services/book";
 import { useAuthContext } from "../context/auth/AuthContext";
 import { z } from "zod";
 import { useForm } from "react-hook-form";

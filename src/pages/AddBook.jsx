@@ -14,6 +14,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Controller, useForm } from "react-hook-form";
 import { addBook } from "../services/book";
+import { toast } from "react-toastify";
 
 const MAX_FILE_SIZE = 500000;
 const ACCEPTED_IMAGE_TYPES = [
@@ -66,12 +67,13 @@ export default function () {
   }
 
   function onSubmit(data) {
-    data.preventDefault();
+    
     setLoading(true);
     setServerError("");
     addBook(data)
       .then((book) => {
         navigate("/manage");
+        toast.success("Book successfully added");
       })
       .catch((err) => {
         setServerError(err.data.message);

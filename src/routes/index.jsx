@@ -4,6 +4,7 @@ import AppLayout from "../layouts/AppLayout";
 import { Book } from "../pages/Book";
 import ManageBooks from "../pages/ManageBooks";
 import AddBook from "../pages/AddBook";
+import EditBook from "../pages/EditBook"
 
 export default function () {
   return (
@@ -13,6 +14,9 @@ export default function () {
         <Route path="/book/:id" element={<Book />}/>
         <Route path="/manage" element={<ManageBooks/>}/>
         <Route path="/manage/add" element={<AddBook/>}/>
+        <Route path="/manage/edit/:id" element={<EditBook/>}/>
+        
+
       </Route>
 
       <Route path="/login" element={<Pages.Login />} />
