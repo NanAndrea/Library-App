@@ -6,9 +6,17 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import { Box, Button, CircularProgress, Grid, TextField, Typography } from "@mui/material";
+import {
+  Alert,
+  Box,
+  Button,
+  CircularProgress,
+  Grid,
+  TextField,
+  Typography,
+} from "@mui/material";
 import PhotoCameraIcon from "@mui/icons-material/PhotoCamera";
-
+import { PhotoCamera } from "@mui/icons-material";
 
 const MAX_FILE_SIZE = 500000;
 const ACCEPTED_IMAGE_TYPES = [
@@ -32,17 +40,24 @@ const EditBookSchema = z.object({
     .refine((file) => file !== null, "Image is required"),
 });
 
-export default function(){
-    const {id} = useParams();
-    const{data: book, loading: bookLoading, error} = useFetchData({
-        fetcher: () => getBookById(id),
-    },[id]);
+export default function () {
+  const { id } = useParams();
+  const {
+    data: book,
+    loading: bookLoading,
+    error,
+  } = useFetchData(
+    {
+      fetcher: () => getBookById(id),
+    },
+    [id]
+  );
 
-    const navigate = useNavigate();
-    const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
   const [serverError, setServerError] = useState("");
 
-const {
+  const {
     register,
     handleSubmit,
     control,
@@ -58,17 +73,16 @@ const {
     resolver: zodResolver(EditBookSchema),
   });
 
-  useEffect(()=>{
-    if(book) {
-        reset({
-            title: book.title,
-            author: book.author,
-            description: book.description,
-            file: book.coverImageURL,
-        });
+  useEffect(() => {
+    if (book) {
+      reset({
+        title: book.title,
+        author: book.author,
+        description: book.description,
+        file: book.coverImageURL,
+      });
     }
-  }, [book])
-  
+  }, [book]);
 
   function displayErrors(key) {
     const error = errors[key];
@@ -79,192 +93,187 @@ const {
   }
 
   function renderImageURL(selectedImage) {
-
     if (typeof selectedImage === "string") {
-        return selectedImage;
+      return selectedImage;
     }
     return URL.createObjectURL(selectedImage);
-}
+  }
 
-  function onSubmit(data){
+  function onSubmit(dataBook) {
     setLoading(true);
     setServerError("");
-    updateBook(data, id)
-        .then((book)=> {
-            navigate("/manage");
-            toast.success("Book successfully updated");
-        })
-        .catch((err)=>{
-            setServerError(err.data.message);
-        })
-        .finally(()=>{
-            setLoading(false);
-        });
+    updateBook(dataBook, id)
+      .then((book) => {
+        navigate("/manage");
+       
+      })
+      .catch((err) => {
+        setServerError(err.data.message);
+       
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   }
 
-  if(bookLoading){
-    return <CircularProgress/>
+  if (bookLoading) {
+    return <CircularProgress />;
   }
 
-  if(serverError){
-    return(
-        <Box>
-            <Typography>Something went wrong with your request...</Typography>
-        </Box>
-    )
+  if (serverError) {
+    return (
+      <Box>
+        <Typography>Something went wrong with your request...</Typography>
+      </Box>
+    );
   }
-return(
+
+  return (
     <Box sx={{ minHeight: "100vh" }}>
-    <Typography variant="h3">Edit book</Typography>
+      <Typography variant="h3">Edit Book</Typography>
 
-    <Box component="form" onSubmit={handleSubmit(onSubmit)} noValidate>
-      <Grid container paddingY={4} spacing={4} display="flex">
-        <Grid item md={6} xs={12}>
-          <TextField
-            fullWidth
-            id="title"
-            label="Title"
-            
-            type="text"
-            required
-            {...register("title")}
-            {...displayErrors("title")}
-            sx={{ marginBottom: "1rem" }}
-          />
-          <TextField
-            fullWidth
-            id="author"
-            label="Author"
-            
-            type="text"
-            required
-            {...register("author")}
-            {...displayErrors("author")}
-            sx={{ marginBottom: "1rem" }}
-          />
-          <TextField
-            fullWidth
-            multiline
-            rows={6}
-            id="description"
-            label="Description"
-            name="Description"
-            required
-            {...register("description")}
-            {...displayErrors("description")}
-          />
-        </Grid>
-        <Grid
-          item
-          md={6}
-          xs={12}
-          
-        >
-          <Controller
-            control={control}
-            name="file"
-            render={({
-              field: { onChange, value: selectedImage },
-              fieldState: { error }
-            }) => (
-              <Grid
-          item
-          md={10}
-          xs={12}
-          sx={{
-            "@media (max-width: 900px)": {
-              height: "20rem !important",
-            },
-            "@media (min-width: 901px)": {
-              height: "20rem !important",
-              
-            }
-          }}
-        >
-              <Box
-                sx={{
-                  border: "3px dotted #B9AD99",
-                  width: "100%",
-                  height: "100%",
-
-                  borderRadius: "1rem",
-                }}
-                display="flex"
-                justifyContent="center"
-                alignItems="center"
-              >
-                 <Box sx={{display: "flex", alignItems: "center", justifyContent: "center", flexDirection: "column", textAlign: "center", marginTop: "10px"}} >
-                {!selectedImage && (
-                 <Button  variant="contained" color="primary" component="label" >
-                    <PhotoCameraIcon sx={{ paddingRight: "0.5rem" }} />
-                    UPLOAD COVER IMAGE
-                    <input
-                      accept="image/*"
-                      type="file"
-                      hidden
-                      onChange={(e) => {
-                        if (e.target.files && e.target.files.length > 0) {
-                          onChange(e.target.files[0]);
-                        }
-                      }}
-                    />
-                  </Button>
-                )}
-              
-            
-          
-          {error && <Box sx={{py: 2}}>{error.message}</Box>}
-
-          {selectedImage && (
-
-            <Box
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                flexDirection: "column",
-              }}
-            >
-              <img
-                style={{ width: 120, height: 180 }}
-                src={renderImageURL(selectedImage)}
-                alt="photo"
-              />
-              <Button
-                variant="contained"
-                sx={{my: 2}}
-                onClick={() => {
-                  onChange(null)
-                }}
-              >
-                Remove This Image
-              </Button>
-              {serverError && (
-                <Alert sx={{ my: 2 }} severity="error">
-                  {serverError}
-                </Alert>
-              )}
-            </Box>
-          )}
-         </Box>
-         </Box>
-        </Grid>
-            )}
+      <Box component="form" onSubmit={handleSubmit(onSubmit)} noValidate>
+        <Grid container paddingY={4} spacing={4} display="flex">
+          <Grid item md={6} xs={12}>
+            <TextField
+              fullWidth
+              id="title"
+              label="Title"
+              type="text"
+              required
+              {...register("title")}
+              {...displayErrors("title")}
+              sx={{ marginBottom: "1rem" }}
             />
-      </Grid>
-      </Grid>
-      <Button
-        variant="contained"
-        type="submit"
-        sx={{ backgroundColor: "primary.dark" }}
-        
-      >
-        SAVE CHANGES
-      </Button>
+            <TextField
+              fullWidth
+              id="author"
+              label="Author"
+              type="text"
+              required
+              {...register("author")}
+              {...displayErrors("author")}
+              sx={{ marginBottom: "1rem" }}
+            />
+            <TextField
+              fullWidth
+              multiline
+              rows={6}
+              id="description"
+              label="Description"
+              required
+              {...register("description")}
+              {...displayErrors("description")}
+            />
+          </Grid>
+          <Grid item md={6} xs={12}>
+            <Controller
+              control={control}
+              name="file"
+              render={({
+                field: { onChange, value: selectedImage },
+                fieldState: { error },
+              }) => (
+                <Grid
+                  item
+                  md={10}
+                  xs={12}
+                  sx={{
+                    "@media (max-width: 900px)": {
+                      height: "20rem !important",
+                    },
+                    "@media (min-width: 901px)": {
+                      height: "20rem !important",
+                    },
+                  }}
+                >
+                  <Box
+                    sx={{
+                      border: "3px dotted #B9AD99",
+                      width: "100%",
+                      height: "100%",
+
+                      borderRadius: "1rem",
+                    }}
+                    display="flex"
+                    justifyContent="center"
+                    alignItems="center"
+                  >
+                    <Box
+                      sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        flexDirection: "column",
+                        textAlign: "center",
+                        marginTop: "10px",
+                      }}
+                    >
+                      {selectedImage && (
+                        <img
+                          style={{ width: 120, height: 180 }}
+                          src={renderImageURL(selectedImage)}
+                          alt="photo not available now"
+                        />
+                      )}
+                      {serverError && (
+                        <Alert sx={{ my: 2 }} severity="error">
+                          {" "}
+                          {serverError}{" "}
+                        </Alert>
+                      )}
+                      <Box>
+                        {selectedImage !== book.coverImageURL ? (
+                          <Button
+                            sx={{my:2}}
+                            variant="contained"
+                            onClick={() => {
+                              onChange(book.coverImageURL);
+                            }}
+                          >
+                            Discard the changes
+                          </Button>
+                        ) : (
+                          <Button
+                            disabled={loading}
+                           sx={{my:2}}
+                            variant="contained"
+                            color="primary"
+                            component="label"
+                          >
+                            <PhotoCamera sx={{ paddingRight: "0.5rem" }}/>
+                            Edit Cover Image
+                            <input
+                              accept="image/*"
+                              type="file"
+                              hidden
+                              onChange={(e) => {
+                                if (
+                                  e.target.files &&
+                                  e.target.files.length > 0
+                                ) {
+                                  onChange(e.target.files[0]);
+                                }
+                              }}
+                            />
+                          </Button>
+                        )}
+                      </Box>
+                    </Box>
+                  </Box>
+                </Grid>
+              )}
+            />
+          </Grid>
+        </Grid>
+        <Button
+          variant="contained"
+          type="submit"
+          sx={{ backgroundColor: "primary.dark" }}
+        >
+          SAVE CHANGES
+        </Button>
+      </Box>
     </Box>
-  </Box>
-
-)
-
+  );
 }
-

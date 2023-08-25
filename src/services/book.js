@@ -35,19 +35,26 @@ export function addBook(data) {
   });
 }
 
-export function updateBook(data, bookId){
-    const formData = new FormData();
-    formData.append("title", data.title );
-    formData.append("author", data.author);
-    formData.append("description", data.description);
-    formData.append("file", data.file);
+export function updateBook(data, bookId) {
+  const formData = new FormData();
+  formData.append("title", data.title);
+  formData.append("author", data.author);
+  formData.append("description", data.description);
+  formData.append("file", data.file);
 
-    const newHeaders = {...headers};
-    delete newHeaders["Content-Type"];
+  const newHeaders = { ...headers };
+  delete newHeaders["Content-Type"];
 
-    return fentchAndParse(`${BASE_URL}/book/${bookId}`, {
-        method: "PUT",
-        body: formData,
-        headers: newHeaders,
-    })
+  return fentchAndParse(`${BASE_URL}/book/${bookId}`, {
+    method: "PUT",
+    body: formData,
+    headers: newHeaders,
+  });
+}
+
+export function deleteBook(bookId) {
+  return fentchAndParse(`${BASE_URL}/book/${bookId}`, {
+    method: "DELETE",
+    headers,
+  });
 }
