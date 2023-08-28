@@ -89,7 +89,7 @@ export default function () {
     updatedAt: book.updatedAt.substring(0, 10),
   }));
 
-  console.log(books);
+ 
 
   const columns = [
     {
@@ -140,16 +140,17 @@ export default function () {
             >
               <DeleteIcon fontSize="small" />
             </IconButton>
-
-            <Dialog
+<Box>
+<Dialog
               open={open}
               onClose={handleClose}
               aria-labelledby="alert-dialog-title"
-              aria-describedby="alert-dialog-description"
+             aria-describedby="alert-dialog-description"
+            
             >
               <DialogTitle id="alert-dialog-title">{""}</DialogTitle>
               <DialogContent>
-                <DialogContentText id="alert-dialog-description">
+                <DialogContentText>
                   Are you sure you want to delete this book?
                 </DialogContentText>
               </DialogContent>
@@ -165,6 +166,8 @@ export default function () {
                 </Button>
               </DialogActions>
             </Dialog>
+</Box>
+            
           </Stack>
         );
       },
@@ -192,8 +195,12 @@ export default function () {
         </Grid>
       </Grid>
 
-      <Box paddingTop={3} style={{ height: 300, width: "100%" }}>
-        <DataGrid rows={rows} columns={columns} onRowClick={handleRowClick} />
+      <Box paddingTop={3}>
+        <DataGrid rows={rows} 
+        columns={columns} 
+        onRowClick={handleRowClick} 
+        sx={{cursor:"pointer", width:"100%"}}
+        />
       </Box>
     </Box>
   );

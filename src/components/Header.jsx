@@ -5,15 +5,16 @@ import {
   Button,
   Container,
   IconButton,
+  InputAdornment,
   Menu,
   MenuItem,
   Paper,
+  TextField,
   Toolbar,
   Tooltip,
   Typography,
 } from "@mui/material";
-
-
+import SearchIcon from "@mui/icons-material/Search";
 import MenuIcon from "@mui/icons-material/Menu";
 import { useState } from "react";
 import { useAuthContext } from "../context/auth/AuthContext";
@@ -34,6 +35,9 @@ const pages = [{
 export function Header() {
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
+  const [searchTerm, setSearchTerm] = useState("");
+
+  
 
   const { user, logout } = useAuthContext();
   const navigate = useNavigate();
@@ -51,6 +55,10 @@ export function Header() {
 
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
+  };
+
+  const handleChange = (event) => {
+    setSearchTerm(event.target.value);
   };
 
   return (
@@ -127,7 +135,11 @@ export function Header() {
                     <Typography textAlign="center">{page.name}</Typography>
                   </MenuItem>
               ))}
+             
+     
+    
             </Menu>
+            
           </Box>
           
           <Box component="img" src="https://s.gr-assets.com/assets/react_components/currently_reading/icn_default_CR_ltrail-16f28d39654104ceb329648a474943eb.svg"
@@ -173,6 +185,23 @@ export function Header() {
                   {page.name}
                 </Button>
               ))}
+
+               <TextField
+        id="search"
+        type="search"
+       placeholder ="Search books"
+       size="small"
+        
+        sx={{marginTop:2, mx:2}}
+        InputProps={{
+          
+          endAdornment: (
+            <InputAdornment position="end">
+              <SearchIcon />
+            </InputAdornment>
+          ),
+        }}
+      />
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>

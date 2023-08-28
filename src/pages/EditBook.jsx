@@ -105,7 +105,7 @@ export default function () {
     updateBook(dataBook, id)
       .then((book) => {
         navigate("/manage");
-       
+       toast.success("Book successfully updated!")
       })
       .catch((err) => {
         setServerError(err.data.message);
@@ -121,11 +121,8 @@ export default function () {
   }
 
   if (serverError) {
-    return (
-      <Box>
-        <Typography>Something went wrong with your request...</Typography>
-      </Box>
-    );
+      navigate("/404")
+    
   }
 
   return (
@@ -218,8 +215,8 @@ export default function () {
                       )}
                       {serverError && (
                         <Alert sx={{ my: 2 }} severity="error">
-                          {" "}
-                          {serverError}{" "}
+                          
+                          {serverError}
                         </Alert>
                       )}
                       <Box>

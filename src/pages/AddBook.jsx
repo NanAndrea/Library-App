@@ -83,12 +83,9 @@ export default function () {
       });
   }
 
- 
 
   if (serverError) {
-    <Box>
-      <Typography>Something went wrong...</Typography>
-    </Box>;
+    navigate("/404")
   }
 
   if (loading) {

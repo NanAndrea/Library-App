@@ -8,7 +8,10 @@ import {
   CardMedia,
   CardContent,
   CardActions,
+  TextField,
+  InputAdornment,
 } from "@mui/material";
+import SearchIcon from "@mui/icons-material/Search";
 import { useAuthContext } from "../context/auth/AuthContext";
 import { useEffect } from "react";
 
@@ -42,8 +45,26 @@ export default function () {
   }
 
   return (
-    <Box paddingY={3}>
-     
+   <Box>
+    <Box sx={{ display: {  md: "none" },}}>
+      <TextField
+        id="search"
+        type="search"
+       placeholder ="Search books"
+       size="small"
+        
+        
+        InputProps={{
+          
+          endAdornment: (
+            <InputAdornment position="end">
+              <SearchIcon />
+            </InputAdornment>
+          ),
+        }}
+      />
+      </Box>
+      <Box paddingY={3}>
       <Grid container spacing={4}>
         {books.map((book) => (
           <Grid item xs={12} sm={6} md={4} lg={3} key={book._id}>
@@ -51,6 +72,7 @@ export default function () {
           </Grid>
         ))}
       </Grid>
+    </Box>
     </Box>
   );
 }
