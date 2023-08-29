@@ -58,3 +58,11 @@ export function deleteBook(bookId) {
     headers,
   });
 }
+
+export function searchBook(title) {
+
+  return fentchAndParse(`${BASE_URL}/book/search?search=${title}`, {
+      method: "GET",
+      headers,
+  })
+}

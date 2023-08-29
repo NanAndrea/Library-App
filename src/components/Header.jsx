@@ -62,7 +62,7 @@ export function Header() {
   };
 
   return (
-    <AppBar position="static" >
+    <AppBar position="fixed" >
       <Paper elevation={1} sx={{backgroundColor:"primary.light"}}>
 
       
