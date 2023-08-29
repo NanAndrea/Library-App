@@ -175,7 +175,7 @@ export default function () {
   ];
 
   return (
-    <Box sx={{ minHeight: "100vh" }}>
+    <Box sx={{ minHeight: "100vh" }} marginTop={8}>
       <Grid container spacing={3} display="flex" alignItems="center">
         <Grid item xs={12} sm={8} md={10}>
           <Typography variant="h3">Manage Books</Typography>
