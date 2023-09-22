@@ -19,31 +19,52 @@ import { useNavigate } from "react-router-dom";
 import { BookCard } from "../components/BookCard";
 import { useFetchData } from "../hooks/useFetchData";
 import { getAllBooks, searchBook } from "../services/book";
+import { SearchBar } from "../components/SearchBar";
+
+
 
 export default function () {
+  const { user } = useAuthContext();
   const [title, setTitle] = useState("");
-  const [searchTerm, setSearchTerm] = useState("the lost world");
   const [loading, setLoading] = useState(true);
+  const [books, setBooks] = useState([]);
+  const [error, setError] = useState(null);
+  
 
-  const updateTitle = title => {
+  const updateTitle = (title) => {
     setTitle(title);
   };
 
 
-  const { user } = useAuthContext();
-  const {
-    data: books,
-    loading:loadingBooks,
-    error,
-  } = useFetchData({
-    fetcher: getAllBooks,
-    initialData: [],
-  });
+  
 
+  useEffect(() => {
+    const requesting = async () => {
+        setLoading(true);
+        searchBook(title).then((data) => {
+            console.log("then")
+            setBooks(data.results);
+        })
+            .catch((err) => {
+              console.log("error")
+                setError(err);
+            })
+            .finally(() => {
+                setLoading(false);
+            });
+    }
+    requesting();
+
+}, [title])
  
 
-  if (loadingBooks) {
-    return <CircularProgress />;
+  if (loading) {
+    return(
+      <Box sx={{marginTop:6}}>
+<CircularProgress />
+
+      </Box>
+       );
   }
   if (error) {
     return (
@@ -56,23 +77,10 @@ export default function () {
   return (
    <Box>
     <Box sx={{ display: {  md: "none" },marginTop:10}}>
-      <TextField
-        id="search"
-        type="search"
-       placeholder ="Search books"
-       size="small"
-       onChange={updateTitle}
-        
-        InputProps={{
-          
-          endAdornment: (
-            <InputAdornment position="end">
-              <SearchIcon />
-            </InputAdornment>
-          ),
-        }}
-      />
-      </Box>
+    <SearchBar onSearch={updateTitle}/>
+    </Box>
+   
+      
       <Box paddingY={3} marginY={5}>
       <Grid container spacing={4}>
         {books.map((book) => (

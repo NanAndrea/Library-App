@@ -4,6 +4,7 @@ import {
   Box,
   Button,
   Container,
+  Grid,
   IconButton,
   InputAdornment,
   Menu,
@@ -16,9 +17,13 @@ import {
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import MenuIcon from "@mui/icons-material/Menu";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useAuthContext } from "../context/auth/AuthContext";
 import { NavLink, useNavigate } from "react-router-dom";
+import { searchBook } from "../services/book";
+import { SearchBar } from "./SearchBar";
+import { BookCard } from "./BookCard";
+
 
 const pages = [{
   name: "Home",
@@ -29,14 +34,17 @@ const pages = [{
   path: "/manage",
   auth: true,
 },
+
 ];
  
 
 export function Header() {
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
-  const [searchTerm, setSearchTerm] = useState("");
-
+  const [title, setTitle] = useState("");
+  const [loading, setLoading] = useState(true);
+  const [books, setBooks] = useState([]);
+  const [error, setError] = useState(null);
   
 
   const { user, logout } = useAuthContext();
@@ -57,11 +65,32 @@ export function Header() {
     setAnchorElUser(null);
   };
 
-  const handleChange = (event) => {
-    setSearchTerm(event.target.value);
+  
+  const updateTitle = (title) => {
+    setTitle(title);
   };
 
+  useEffect(() => {
+    const requesting = async () => {
+        setLoading(true);
+        searchBook(title).then((data) => {
+            console.log("then")
+            setBooks(data.results);
+        })
+            .catch((err) => {
+              console.log("error")
+                setError(err);
+            })
+            .finally(() => {
+                setLoading(false);
+            });
+    }
+    requesting();
+
+}, [title])
+
   return (
+    <Box>
     <AppBar position="fixed" >
       <Paper elevation={1} sx={{backgroundColor:"primary.light"}}>
 
@@ -139,7 +168,7 @@ export function Header() {
      
     
             </Menu>
-            
+     
           </Box>
           
           <Box component="img" src="https://s.gr-assets.com/assets/react_components/currently_reading/icn_default_CR_ltrail-16f28d39654104ceb329648a474943eb.svg"
@@ -162,6 +191,7 @@ export function Header() {
           >
             goodReads
           </Typography>
+         
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
           {pages
               .filter((page) => (page.auth ? Boolean(user) : true))
@@ -185,25 +215,12 @@ export function Header() {
                   {page.name}
                 </Button>
               ))}
-
-               <TextField
-        id="search"
-        type="search"
-       placeholder ="Search books"
-       size="small"
-        
-        sx={{marginTop:2, mx:2}}
-        InputProps={{
-          
-          endAdornment: (
-            <InputAdornment position="end">
-              <SearchIcon />
-            </InputAdornment>
-          ),
-        }}
-      />
+              <Box sx={{my:2, mx:1}}>
+              <SearchBar onSearch={updateTitle}/>
+              </Box>
+     
           </Box>
-
+          
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Account">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
@@ -254,6 +271,9 @@ export function Header() {
         </Toolbar>
       </Container>
       </Paper>
+     
     </AppBar>
+    
+    </Box>
   );
 }

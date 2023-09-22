@@ -1,5 +1,6 @@
 import {
   Box,
+  Button,
   ButtonBase,
   CircularProgress,
   Divider,
@@ -8,12 +9,14 @@ import {
   Typography,
   styled,
 } from "@mui/material";
-import { useParams } from "react-router-dom";
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { useNavigate, useParams } from "react-router-dom";
 import { useFetchData } from "../hooks/useFetchData";
 import { getBookById } from "../services/book";
 
 export function Book() {
   const { id } = useParams();
+  const navigate = useNavigate();
 
   const {
     data: book,
@@ -36,8 +39,12 @@ export function Book() {
   }
   return (
     <Box marginTop={8}>
-      <Box>
-        
+      <Box sx={{marginBottom:2}}>
+      <Button onClick={()=> navigate("/")}>
+     <ArrowBackIcon />
+      <Typography variant="h6" marginLeft={1}>Go Back</Typography>
+     
+    </Button>
       </Box>
       <Grid container spacing={2}>
         <Grid item xs sm={4}>
