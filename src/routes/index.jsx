@@ -6,12 +6,14 @@ import ManageBooks from "../pages/ManageBooks";
 import AddBook from "../pages/AddBook";
 import EditBook from "../pages/EditBook";
 import NotFound from "../components/NotFound";
+import About from "../pages/About";
 
 export default function () {
   return (
     <Routes>
       <Route element={<AppLayout />}>
         <Route path="/" element={<Pages.Home />} />
+        <Route path="/about" element={<About />} />
         <Route path="/book/:id" element={<Book />} />
         <Route path="/manage" element={<ManageBooks />} />
         <Route path="/manage/add" element={<AddBook />} />

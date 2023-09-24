@@ -34,6 +34,10 @@ const pages = [{
   path: "/manage",
   auth: true,
 },
+{
+  name: "About",
+  path:"/about",
+}
 
 ];
  
