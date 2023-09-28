@@ -9,7 +9,7 @@ function Image({search}) {
     const [src, setSrc] = useState(null);
 
     const updateImage = useCallback(async () => {
-        const baseUrl = "https://source.unsplash.com/featured/640x480";
+        const baseUrl = "https://source.unsplash.com/featured/480x480";
         const url = `${baseUrl}?${search}`;
         const response = await fetch(url);
         setSrc(response.url);
@@ -31,14 +31,14 @@ function Image({search}) {
 
     return(
         <Grid container >
-            <Grid intem sm={8} lg={8} xs={12}>
+            <Grid item lg={6} sm={12} xs={12}>
             <Fragment>
       <Image search={search} />
       
     </Fragment>
             </Grid>
        
- <Grid item sm={4} lg={4} xs={12}>
+ <Grid item lg={6} sm={12} xs={12}>
             <Typography variant="h3" marginTop={16}>About goodReads</Typography>
         
         <Box sx={{marginTop: 8}}>

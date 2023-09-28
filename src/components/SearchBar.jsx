@@ -1,9 +1,10 @@
 import { Box, IconButton, InputAdornment, TextField } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import SearchIcon from "@mui/icons-material/Search";
 
 export function SearchBar({onSearch}) {
     const [title, updateTitle] = useState("");
+    
 
     const handleUpdateTitle = async () => {
         onSearch(title)
