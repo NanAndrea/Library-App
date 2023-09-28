@@ -15,14 +15,12 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
-import SearchIcon from "@mui/icons-material/Search";
+
 import MenuIcon from "@mui/icons-material/Menu";
-import { useEffect, useState } from "react";
+import {  useState } from "react";
 import { useAuthContext } from "../context/auth/AuthContext";
 import { NavLink, useNavigate } from "react-router-dom";
-import { searchBook } from "../services/book";
-import { SearchBar } from "./SearchBar";
-import { BookCard } from "./BookCard";
+
 
 
 const pages = [{
@@ -45,12 +43,8 @@ const pages = [{
 export function Header() {
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
-  const [title, setTitle] = useState("");
-  const [loading, setLoading] = useState(true);
-  const [books, setBooks] = useState([]);
-  const [error, setError] = useState(null);
-  
 
+  
   const { user, logout } = useAuthContext();
   const navigate = useNavigate();
 
@@ -70,33 +64,12 @@ export function Header() {
   };
 
   
-  const updateTitle = (title) => {
-    setTitle(title);
-  };
-
-  useEffect(() => {
-    const requesting = async () => {
-        setLoading(true);
-        searchBook(title).then((data) => {
-            console.log("then")
-            setBooks(data.results);
-        })
-            .catch((err) => {
-              console.log("error")
-                setError(err);
-            })
-            .finally(() => {
-                setLoading(false);
-            });
-    }
-    requesting();
-
-}, [title])
+ 
 
   return (
     <Box>
-    <AppBar position="fixed" >
-      <Paper elevation={1} sx={{backgroundColor:"primary.light"}}>
+    <AppBar position="fixed" sx={{backgroundColor:"primary.light"}}>
+     
 
       
       <Container maxWidth="lg" >
@@ -111,7 +84,7 @@ export function Header() {
               mr: 2,
               display: { xs: "none", md: "flex" },
               fontWeight: 700,
-              color: "inherit",
+              color:"primary.main",
               textDecoration: "none",
             }}
           >
@@ -125,7 +98,7 @@ export function Header() {
               aria-controls="menu-appbar"
               aria-haspopup="true"
               onClick={handleOpenNavMenu}
-              color="inherit"
+              color="primary.main"
             >
               <MenuIcon />
             </IconButton>
@@ -219,9 +192,7 @@ export function Header() {
                   {page.name}
                 </Button>
               ))}
-              <Box sx={{my:2, mx:1}}>
-              <SearchBar onSearch={updateTitle}/>
-              </Box>
+              
      
           </Box>
           
@@ -274,10 +245,10 @@ export function Header() {
           </Box>
         </Toolbar>
       </Container>
-      </Paper>
+      
      
     </AppBar>
-    
+   
     </Box>
   );
 }

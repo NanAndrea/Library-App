@@ -11,9 +11,12 @@ export function SearchBar({onSearch}) {
     };
 
     return (
-        <Box >
+        <Box sx={{display:{md:"flex", justifyContent:"flex-end"}}}>
+
         <TextField
+        
           id="search"
+          
           type="search"
          placeholder ="Search books"
          size="small"

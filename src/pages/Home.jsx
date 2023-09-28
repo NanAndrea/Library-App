@@ -76,9 +76,11 @@ export default function () {
 
   return (
    <Box>
-    <Box sx={{ display: {  md: "none" },marginTop:10}}>
+    <Box sx={{ marginTop:10}}>
+     
     <SearchBar onSearch={updateTitle}/>
     </Box>
+    
    
       
       <Box paddingY={3} marginY={5}>

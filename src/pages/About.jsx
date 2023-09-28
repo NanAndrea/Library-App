@@ -9,7 +9,7 @@ function Image({search}) {
     const [src, setSrc] = useState(null);
 
     const updateImage = useCallback(async () => {
-        const baseUrl = "https://source.unsplash.com/featured/480x480";
+        const baseUrl = "https://source.unsplash.com/featured/400x480";
         const url = `${baseUrl}?${search}`;
         const response = await fetch(url);
         setSrc(response.url);
